@@ -1,0 +1,14 @@
+import jwt
+
+def generate_jwt_token(user_data):
+    secret_key = "KoWA/uGn+EI4yxTH5vuhCn4lLcp05t+rDkOZZ06DgpQ="
+    payload = {
+        "iss": "https://v0.dev/chat/alhagg-investment-website-disJFFexLfr",
+        "aud": "alhagg-investment-website",
+        "iat": int(time.time()),
+        "exp": int(time.time()) + 3600,
+        "sub": user_data["username"],
+        "jti": user_data["id"]
+    }
+    token = jwt.encode(payload, secret_key, algorithm="HS256")
+    return token
