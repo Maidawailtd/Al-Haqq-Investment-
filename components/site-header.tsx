@@ -120,7 +120,7 @@ export function SiteHeader() {
           className="md:hidden"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           aria-label={isMenuOpen ? "Close Menu" : "Open Menu"}
-          aria-expanded={isMenuOpen}
+          aria-expanded={isMenuOpen.toString()}
           aria-controls="mobile-menu"
         >
           {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}

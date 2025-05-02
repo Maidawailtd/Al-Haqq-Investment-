@@ -1,48 +1,66 @@
-import { type NextRequest, NextResponse } from "next/server"
-import { registerUser, createSessionToken, setSessionCookie } from "@/lib/auth"
-import { z } from "zod"
+import express, { Request, Response } from 'express';
+import mongoose, { ConnectOptions } from 'mongoose';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
 
-// Validation schema for registration
-const registerSchema = z.object({
-  email: z.string().email("Please enter a valid email address"),
-  password: z.string().min(8, "Password must be at least 8 characters"),
-  name: z.string().min(2, "Name must be at least 2 characters"),
-})
+dotenv.config();
 
-export async function POST(request: NextRequest) {
+const app = express();
+app.use(express.json());
+
+// MongoDB connection
+mongoose.connect(process.env.MONGO_URI || '', {
+  useUnifiedTopology: true,
+} as ConnectOptions).then(() => console.log('Connected to MongoDB')).catch(err => console.error('MongoDB connection error:', err));
+
+// User model
+const userSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+});
+
+const User = mongoose.model('User', userSchema);
+
+// Register route
+app.post('/signup', async (req: Request, res: Response) => {
+  const { name, email, password } = req.body;
+
   try {
-    // Parse request body
-    const body = await request.json()
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = new User({ name, email, password: hashedPassword });
+    await newUser.save();
 
-    // Validate input
-    const result = registerSchema.safeParse(body)
-    if (!result.success) {
-      return NextResponse.json(
-        { error: "Validation failed", details: result.error.flatten().fieldErrors },
-        { status: 400 },
-      )
-    }
-
-    const { email, password, name } = result.data
-
-    // Register user
-    const user = await registerUser(email, password, name)
-
-    if (!user) {
-      return NextResponse.json({ error: "User already exists with this email" }, { status: 409 })
-    }
-
-    // Create session token
-    const token = await createSessionToken(user)
-
-    // Set session cookie
-    setSessionCookie(token)
-
-    // Return success response
-    return NextResponse.json({ success: true, user })
+    res.status(201).json({ message: 'User registered successfully' });
   } catch (error) {
-    console.error("Registration error:", error)
-    return NextResponse.json({ error: "An unexpected error occurred" }, { status: 500 })
+    res.status(500).json({ error: 'Error registering user' });
   }
-}
+});
+
+// Login route
+app.post('/login', async (req: Request, res: Response) => {
+  const { email, password } = req.body;
+
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      return res.status(401).json({ error: 'Invalid credentials' });
+    }
+
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET || '', { expiresIn: '1h' });
+    res.status(200).json({ token });
+  } catch (error) {
+    res.status(500).json({ error: 'Error logging in' });
+  }
+});
+
+// Start server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server is running on PORT ${PORT}`));
 

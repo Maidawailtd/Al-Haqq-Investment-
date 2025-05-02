@@ -8,7 +8,7 @@ body {
 
 @layer utilities {
   .text-balance {
-    text-wrap: balance;
+    word-wrap: break-word; /* Fallback for older browsers */
   }
 }
 
@@ -86,7 +86,7 @@ body {
 
 @layer base {
   * {
-    @apply border-border;
+    border: 1px solid #ccc;
   }
   body {
     @apply bg-background text-foreground;

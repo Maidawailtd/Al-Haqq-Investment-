@@ -11,6 +11,7 @@ const IconBase: React.FC<IconProps> = ({ children, size = 24, title, description
   const uniqueId = React.useId()
   const titleId = title ? `icon-title-${uniqueId}` : undefined
   const descId = description ? `icon-desc-${uniqueId}` : undefined
+  const isHidden = !title
 
   return (
     <svg
@@ -23,7 +24,7 @@ const IconBase: React.FC<IconProps> = ({ children, size = 24, title, description
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
-      aria-hidden={!title}
+      aria-hidden={isHidden.toString()}
       aria-labelledby={titleId ? titleId : undefined}
       aria-describedby={descId ? descId : undefined}
       role="img"

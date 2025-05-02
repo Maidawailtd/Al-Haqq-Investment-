@@ -2,6 +2,7 @@ import { hash, compare } from "bcryptjs"
 import { SignJWT, jwtVerify } from "jose"
 import { cookies } from "next/headers"
 import { type NextRequest, NextResponse } from "next/server"
+import { MongoClient } from "mongodb"
 
 // Secret key for JWT signing - in production, use environment variables
 const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET || "your-secret-key-at-least-32-characters-long")
@@ -13,33 +14,10 @@ export type UserData = {
   role: "user" | "admin"
 }
 
-// Mock database for demo purposes
-// In a real app, this would be replaced with a database connection
-const USERS_DB: Record<
-  string,
-  {
-    id: string
-    email: string
-    name: string
-    passwordHash: string
-    role: "user" | "admin"
-  }
-> = {
-  user1: {
-    id: "user1",
-    email: "demo@example.com",
-    name: "Demo User",
-    passwordHash: "$2a$10$8Wia.1rlHJfGaAncUfZhvOQvGGZBLXS9XpOiXR7Vv5c8QKwVzQnQe", // 'password123'
-    role: "user",
-  },
-  admin1: {
-    id: "admin1",
-    email: "admin@example.com",
-    name: "Admin User",
-    passwordHash: "$2a$10$8Wia.1rlHJfGaAncUfZhvOQvGGZBLXS9XpOiXR7Vv5c8QKwVzQnQe", // 'password123'
-    role: "admin",
-  },
-}
+// MongoDB setup
+const client = new MongoClient(process.env.MONGO_URI || "mongodb://localhost:27017")
+const db = client.db("alhaqq_investment")
+const usersCollection = db.collection("users")
 
 // Password hashing
 export async function hashPassword(password: string): Promise<string> {
@@ -53,60 +31,31 @@ export async function verifyPassword(password: string, hashedPassword: string): 
 
 // User registration
 export async function registerUser(email: string, password: string, name: string): Promise<UserData | null> {
-  // Check if user already exists
-  const existingUser = Object.values(USERS_DB).find((user) => user.email === email)
+  const existingUser = await usersCollection.findOne({ email })
   if (existingUser) {
     return null
   }
 
-  // Hash password
   const passwordHash = await hashPassword(password)
+  const newUser = { email, name, passwordHash, role: "user" }
 
-  // Generate unique ID (in a real app, this would be handled by the database)
-  const id = `user${Date.now()}`
-
-  // Create new user
-  const newUser = {
-    id,
-    email,
-    name,
-    passwordHash,
-    role: "user" as const,
-  }
-
-  // Save user to "database"
-  USERS_DB[id] = newUser
-
-  // Return user data (excluding password)
-  return {
-    id: newUser.id,
-    email: newUser.email,
-    name: newUser.name,
-    role: newUser.role,
-  }
+  await usersCollection.insertOne(newUser)
+  return { email: newUser.email, name: newUser.name, role: newUser.role as 'user' | 'admin' }
 }
 
 // User login
 export async function loginUser(email: string, password: string): Promise<UserData | null> {
-  // Find user by email
-  const user = Object.values(USERS_DB).find((user) => user.email === email)
+  const user = await usersCollection.findOne({ email })
   if (!user) {
     return null
   }
 
-  // Verify password
   const isPasswordValid = await verifyPassword(password, user.passwordHash)
   if (!isPasswordValid) {
     return null
   }
 
-  // Return user data (excluding password)
-  return {
-    id: user.id,
-    email: user.email,
-    name: user.name,
-    role: user.role,
-  }
+  return { email: user.email, name: user.name, role: user.role, id: user.id }
 }
 
 // Create session token
@@ -125,8 +74,9 @@ export async function createSessionToken(user: UserData): Promise<string> {
 }
 
 // Set session cookie
-export function setSessionCookie(token: string): void {
-  cookies().set({
+export async function setSessionCookie(token: string): Promise<void> {
+  const cookiesInstance = await cookies()
+  cookiesInstance.set({
     name: "session_token",
     value: token,
     httpOnly: true,
@@ -138,8 +88,9 @@ export function setSessionCookie(token: string): void {
 }
 
 // Clear session cookie
-export function clearSessionCookie(): void {
-  cookies().set({
+export async function clearSessionCookie(): Promise<void> {
+  const cookiesInstance = await cookies()
+  cookiesInstance.set({
     name: "session_token",
     value: "",
     httpOnly: true,
@@ -152,7 +103,8 @@ export function clearSessionCookie(): void {
 
 // Get current user from session
 export async function getCurrentUser(): Promise<UserData | null> {
-  const token = cookies().get("session_token")?.value
+  const cookiesInstance = await cookies()
+  const token = (await cookiesInstance.get("session_token"))?.value
 
   if (!token) {
     return null
@@ -168,7 +120,8 @@ export async function getCurrentUser(): Promise<UserData | null> {
 
 // Middleware to protect routes
 export async function protectRoute(request: NextRequest) {
-  const token = request.cookies.get("session_token")?.value
+  const cookiesInstance = await cookies()
+  const token = (await cookiesInstance.get("session_token"))?.value
 
   if (!token) {
     return NextResponse.redirect(new URL("/login", request.url))

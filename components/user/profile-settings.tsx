@@ -69,7 +69,7 @@ export function ProfileSettings() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="language">Language</Label>
+                <label htmlFor="language">Language</label>
                 <select id="language" className="w-full p-2 border rounded-md">
                   <option value="en">English</option>
                   <option value="es">Spanish</option>
@@ -78,7 +78,7 @@ export function ProfileSettings() {
                 </select>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="timezone">Timezone</Label>
+                <label htmlFor="timezone">Timezone</label>
                 <select id="timezone" className="w-full p-2 border rounded-md">
                   <option value="utc-8">Pacific Time (UTC-8)</option>
                   <option value="utc-5">Eastern Time (UTC-5)</option>
@@ -121,20 +121,20 @@ export function ProfileSettings() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center space-x-2">
+                <label htmlFor="email-notifications">Email Notifications</label>
                 <input type="checkbox" id="email-notifications" className="rounded border-gray-300" defaultChecked />
-                <Label htmlFor="email-notifications">Email Notifications</Label>
               </div>
               <div className="flex items-center space-x-2">
+                <label htmlFor="sms-notifications">SMS Notifications</label>
                 <input type="checkbox" id="sms-notifications" className="rounded border-gray-300" defaultChecked />
-                <Label htmlFor="sms-notifications">SMS Notifications</Label>
               </div>
               <div className="flex items-center space-x-2">
+                <label htmlFor="push-notifications">Push Notifications</label>
                 <input type="checkbox" id="push-notifications" className="rounded border-gray-300" defaultChecked />
-                <Label htmlFor="push-notifications">Push Notifications</Label>
               </div>
               <div className="flex items-center space-x-2">
+                <label htmlFor="marketing-emails">Marketing Emails</label>
                 <input type="checkbox" id="marketing-emails" className="rounded border-gray-300" />
-                <Label htmlFor="marketing-emails">Marketing Emails</Label>
               </div>
               <Button className="bg-emerald-600 hover:bg-emerald-700">Save Preferences</Button>
             </CardContent>
