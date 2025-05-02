@@ -45,7 +45,7 @@ dotenv_1["default"].config();
 var app = express_1["default"]();
 app.use(express_1["default"].json());
 // MongoDB connection
-mongoose_1["default"].connect(process.env.MONGO_URI || '', {
+mongoose_1["default"].connect(process.env.MONGO_URI, {
     useUnifiedTopology: true
 }).then(function () { return console.log('Connected to MongoDB'); })["catch"](function (err) { return console.error('MongoDB connection error:', err); });
 // User model
@@ -104,7 +104,7 @@ app.post('/login', function (req, res) { return __awaiter(void 0, void 0, void 0
                 if (!isPasswordValid) {
                     return [2 /*return*/, res.status(401).json({ error: 'Invalid credentials' })];
                 }
-                token = jsonwebtoken_1["default"].sign({ id: user._id }, process.env.JWT_SECRET || '', { expiresIn: '1h' });
+                token = jsonwebtoken_1["default"].sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
                 res.status(200).json({ token: token });
                 return [3 /*break*/, 5];
             case 4:

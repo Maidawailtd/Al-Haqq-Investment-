@@ -1,3 +1,6 @@
+/* Ensure Tailwind CSS is properly configured */
+/* Check if Tailwind is installed and configured in tailwind.config.js */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -89,6 +92,15 @@ body {
     border: 1px solid #ccc;
   }
   body {
-    @apply bg-background text-foreground;
+    background-color: var(--background);
+    color: var(--foreground);
   }
+}
+
+/* Fix for @apply rule */
+.bg-background {
+  background-color: var(--background);
+}
+.text-foreground {
+  color: var(--foreground);
 }

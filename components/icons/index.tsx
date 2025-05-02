@@ -24,7 +24,7 @@ const IconBase: React.FC<IconProps> = ({ children, size = 24, title, description
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
-      aria-hidden={isHidden.toString()}
+      aria-hidden={isHidden}
       aria-labelledby={titleId ? titleId : undefined}
       aria-describedby={descId ? descId : undefined}
       role="img"

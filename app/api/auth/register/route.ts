@@ -3,6 +3,9 @@ import mongoose, { ConnectOptions } from 'mongoose';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+// Fix type mismatch by ensuring compatibility with Express types
+import { ParamsDictionary } from 'express-serve-static-core';
+import { ParsedQs } from 'qs';
 
 dotenv.config();
 
@@ -10,7 +13,7 @@ const app = express();
 app.use(express.json());
 
 // MongoDB connection
-mongoose.connect(process.env.MONGO_URI || '', {
+mongoose.connect(process.env.MONGO_URI!, {
   useUnifiedTopology: true,
 } as ConnectOptions).then(() => console.log('Connected to MongoDB')).catch(err => console.error('MongoDB connection error:', err));
 
@@ -39,7 +42,7 @@ app.post('/signup', async (req: Request, res: Response) => {
 });
 
 // Login route
-app.post('/login', async (req: Request, res: Response) => {
+app.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
   try {
@@ -53,7 +56,7 @@ app.post('/login', async (req: Request, res: Response) => {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET || '', { expiresIn: '1h' });
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET!, { expiresIn: '1h' });
     res.status(200).json({ token });
   } catch (error) {
     res.status(500).json({ error: 'Error logging in' });

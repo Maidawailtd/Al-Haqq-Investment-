@@ -3,9 +3,10 @@ import { SignJWT, jwtVerify } from "jose"
 import { cookies } from "next/headers"
 import { type NextRequest, NextResponse } from "next/server"
 import { MongoClient } from "mongodb"
+import { v4 as uuidv4 } from 'uuid';
 
-// Secret key for JWT signing - in production, use environment variables
-const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET || "your-secret-key-at-least-32-characters-long")
+// Ensure JWT_SECRET is properly loaded
+const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET!);
 
 export type UserData = {
   id: string
@@ -15,9 +16,15 @@ export type UserData = {
 }
 
 // MongoDB setup
-const client = new MongoClient(process.env.MONGO_URI || "mongodb://localhost:27017")
+// Ensure MongoDB client uses the environment variable
+const client = new MongoClient(process.env.MONGO_URI!);
 const db = client.db("alhaqq_investment")
 const usersCollection = db.collection("users")
+
+// Add a utility function to generate unique IDs
+function generateUniqueId(): string {
+  return uuidv4();
+}
 
 // Password hashing
 export async function hashPassword(password: string): Promise<string> {
@@ -37,10 +44,10 @@ export async function registerUser(email: string, password: string, name: string
   }
 
   const passwordHash = await hashPassword(password)
-  const newUser = { email, name, passwordHash, role: "user" }
+  const newUser = { id: generateUniqueId(), email, name, passwordHash, role: "user" }
 
   await usersCollection.insertOne(newUser)
-  return { email: newUser.email, name: newUser.name, role: newUser.role as 'user' | 'admin' }
+  return { id: newUser.id, email: newUser.email, name: newUser.name, role: newUser.role as 'user' | 'admin' }
 }
 
 // User login

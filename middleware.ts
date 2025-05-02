@@ -1,10 +1,11 @@
-import dotenv from 'dotenv';
-dotenv.config();
-
-import { NextResponse } from "next/server"
-import type { NextRequest } from "next/server"
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
+  // Example usage of environment variables directly
+  const someEnvVariable = process.env.SOME_ENV_VARIABLE;
+  console.log("Environment Variable:", someEnvVariable);
+
   // Check if the request is for a non-existent static file
   if (
     request.nextUrl.pathname.startsWith("/_next/") ||
@@ -12,29 +13,36 @@ export function middleware(request: NextRequest) {
     request.nextUrl.pathname.startsWith("/robots.txt") ||
     request.nextUrl.pathname.startsWith("/sitemap.xml")
   ) {
-    return NextResponse.next()
+    return NextResponse.next();
   }
 
   // Handle broken links that aren't covered by redirects
-  const brokenPaths = ["/investor", "/invest", "/news", "/blog", "/faq"]
+  const brokenPaths = ["/investor", "/invest", "/news", "/blog", "/faq"];
   if (brokenPaths.some((path) => request.nextUrl.pathname === path)) {
-    return NextResponse.redirect(new URL("/", request.url))
+    return NextResponse.redirect(new URL("/", request.url));
   }
 
   // Check for dashboard access - verify authentication
   if (request.nextUrl.pathname.startsWith("/dashboard") || request.nextUrl.pathname.startsWith("/portfolio")) {
     // Check for authentication token
-    const sessionToken = request.cookies.get("session_token")?.value
+    const sessionToken = request.cookies.get("session_token")?.value;
 
     if (!sessionToken) {
-      return NextResponse.redirect(new URL("/login", request.url))
+      return NextResponse.redirect(new URL("/login", request.url));
     }
 
     // In a real app, you would verify the token here
     // For now, we'll just check if it exists
   }
 
-  return NextResponse.next()
+  // Example: Redirect to HTTPS
+  if (request.nextUrl.protocol !== "https:") {
+    return NextResponse.redirect(
+      new URL(request.nextUrl.href.replace("http:", "https:"))
+    );
+  }
+
+  return NextResponse.next();
 }
 
 export const config = {
@@ -48,5 +56,5 @@ export const config = {
      */
     "/((?!api|_next/static|_next/image|favicon.ico).*)",
   ],
-}
+};
 

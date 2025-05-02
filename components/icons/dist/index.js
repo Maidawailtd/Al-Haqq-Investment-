@@ -30,7 +30,7 @@ var IconBase = function (_a) {
     var titleId = title ? "icon-title-" + uniqueId : undefined;
     var descId = description ? "icon-desc-" + uniqueId : undefined;
     var isHidden = !title;
-    return (react_1["default"].createElement("svg", __assign({ xmlns: "http://www.w3.org/2000/svg", width: size, height: size, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": isHidden.toString(), "aria-labelledby": titleId ? titleId : undefined, "aria-describedby": descId ? descId : undefined, role: "img" }, props),
+    return (react_1["default"].createElement("svg", __assign({ xmlns: "http://www.w3.org/2000/svg", width: size, height: size, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": isHidden, "aria-labelledby": titleId ? titleId : undefined, "aria-describedby": descId ? descId : undefined, role: "img" }, props),
         title && react_1["default"].createElement("title", { id: titleId }, title),
         description && react_1["default"].createElement("desc", { id: descId }, description),
         children));
