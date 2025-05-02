@@ -42,6 +42,12 @@ var bcrypt_1 = require("bcrypt");
 var jsonwebtoken_1 = require("jsonwebtoken");
 var dotenv_1 = require("dotenv");
 dotenv_1["default"].config();
+if (!process.env.MONGO_URI) {
+    throw new Error("MONGO_URI environment variable is not set.");
+}
+if (!process.env.JWT_SECRET) {
+    throw new Error("JWT_SECRET environment variable is not set.");
+}
 var app = express_1["default"]();
 app.use(express_1["default"].json());
 // MongoDB connection

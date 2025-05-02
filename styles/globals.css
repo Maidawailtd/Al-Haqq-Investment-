@@ -85,10 +85,22 @@ body {
 }
 
 @layer base {
-  * {
-    @apply border-border;
+  .border-border {
+    border-color: var(--border-color);
   }
-  body {
-    @apply bg-background text-foreground;
+  .bg-background {
+    background-color: var(--background-color);
   }
+  .text-foreground {
+    color: var(--foreground-color);
+  }
+}
+
+/* ChartStyles.css */
+.tooltip {
+  background-color: var(--tooltip-background);
+  color: var(--tooltip-foreground);
+  padding: 0.5rem;
+  border-radius: var(--radius);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }

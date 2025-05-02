@@ -119,7 +119,7 @@ export function SiteHeader() {
         <button
           className="md:hidden"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
-          aria-label="Toggle navigation"
+          aria-label="Toggle navigation menu for site"
           aria-expanded={isMenuOpen ? "true" : "false"}
           aria-controls="mobile-menu"
         >

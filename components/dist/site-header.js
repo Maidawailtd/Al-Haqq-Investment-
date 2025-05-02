@@ -47,7 +47,7 @@ function SiteHeader() {
                     React.createElement(button_1.Button, { variant: "outline", className: "h-9" }, "Log In")),
                 React.createElement(link_1["default"], { href: "/register" },
                     React.createElement(button_1.Button, { className: "h-9 bg-emerald-600 hover:bg-emerald-700" }, "Register"))))),
-            React.createElement("button", { className: "md:hidden", onClick: function () { return setIsMenuOpen(!isMenuOpen); }, "aria-label": "Toggle navigation", "aria-expanded": isMenuOpen ? "true" : "false", "aria-controls": "mobile-menu" }, isMenuOpen ? React.createElement(lucide_react_1.X, { className: "h-6 w-6" }) : React.createElement(lucide_react_1.Menu, { className: "h-6 w-6" }))),
+            React.createElement("button", { className: "md:hidden", onClick: function () { return setIsMenuOpen(!isMenuOpen); }, "aria-label": "Toggle navigation menu for site", "aria-expanded": isMenuOpen ? "true" : "false", "aria-controls": "mobile-menu" }, isMenuOpen ? React.createElement(lucide_react_1.X, { className: "h-6 w-6" }) : React.createElement(lucide_react_1.Menu, { className: "h-6 w-6" }))),
         isMenuOpen && (React.createElement("div", { className: "md:hidden border-t", id: "mobile-menu" },
             React.createElement("div", { className: "container py-4 flex flex-col gap-4" },
                 React.createElement(link_1["default"], { href: "/", className: "text-sm font-medium hover:text-emerald-600 transition-colors py-2 " + (pathname === "/" ? "text-emerald-600" : "") }, "Home"),

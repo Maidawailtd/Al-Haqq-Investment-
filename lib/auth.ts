@@ -5,6 +5,14 @@ import { type NextRequest, NextResponse } from "next/server"
 import { MongoClient } from "mongodb"
 import { v4 as uuidv4 } from 'uuid';
 
+// Ensure environment variables are properly loaded
+if (!process.env.MONGO_URI) {
+  throw new Error("MONGO_URI environment variable is not set.");
+}
+if (!process.env.JWT_SECRET) {
+  throw new Error("JWT_SECRET environment variable is not set.");
+}
+
 // Ensure JWT_SECRET is properly loaded
 const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET!);
 

@@ -9,6 +9,13 @@ import { ParsedQs } from 'qs';
 
 dotenv.config();
 
+if (!process.env.MONGO_URI) {
+  throw new Error("MONGO_URI environment variable is not set.");
+}
+if (!process.env.JWT_SECRET) {
+  throw new Error("JWT_SECRET environment variable is not set.");
+}
+
 const app = express();
 app.use(express.json());
 

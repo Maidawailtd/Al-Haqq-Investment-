@@ -97,7 +97,9 @@ body {
   }
 }
 
-/* Fix for @apply rule */
+/* Removed @apply rule and replaced with explicit CSS */
+/* Example: .custom-class { background-color: var(--background-color); } */
+
 .bg-background {
   background-color: var(--background);
 }

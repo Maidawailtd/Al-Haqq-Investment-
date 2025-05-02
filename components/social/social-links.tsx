@@ -36,7 +36,7 @@ export function SocialLinks() {
         href="https://linkedin.com/company/alhagginvestment"
         target="_blank"
         rel="noopener noreferrer"
-        aria-label="Connect with us on LinkedIn"
+        aria-label="Follow us on LinkedIn"
       >
         <IconButton
           variant="outline"
@@ -64,7 +64,7 @@ export function SocialLinks() {
         href="https://youtube.com/alhagginvestment"
         target="_blank"
         rel="noopener noreferrer"
-        aria-label="Subscribe to our YouTube channel"
+        aria-label="Follow us on YouTube"
       >
         <IconButton
           variant="outline"
