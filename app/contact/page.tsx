@@ -1,90 +1,221 @@
+"use client"
+
+import type React from "react"
+
+import { useState } from "react"
 import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { ContactInfo } from "@/components/contact/contact-info"
-import { SocialLinks } from "@/components/social/social-links"
-
-export const metadata = {
-  title: "Contact Us - Alhagg Investment",
-  description:
-    "Get in touch with our team of investment experts. We're here to answer your questions and help you achieve your financial goals.",
-}
+import { Mail, MapPin, Phone } from "lucide-react"
 
 export default function ContactPage() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    subject: "",
+    message: "",
+  })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitSuccess, setSubmitSuccess] = useState(false)
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target
+    setFormData({
+      ...formData,
+      [name]: value,
+    })
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+
+    // Simulate form submission
+    setTimeout(() => {
+      console.log("Form submitted:", formData)
+      setIsSubmitting(false)
+      setSubmitSuccess(true)
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        subject: "",
+        message: "",
+      })
+
+      // Reset success message after 5 seconds
+      setTimeout(() => {
+        setSubmitSuccess(false)
+      }, 5000)
+    }, 1500)
+  }
+
   return (
-    <div className="flex flex-col min-h-screen">
+    <div>
       {/* Hero Section */}
-      <section className="w-full py-12 md:py-24 lg:py-32 bg-slate-50">
-        <div className="container px-4 md:px-6">
-          <div className="flex flex-col items-center justify-center space-y-4 text-center">
-            <div className="space-y-2">
-              <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl">Contact Us</h1>
-              <p className="max-w-[700px] text-slate-500 md:text-xl/relaxed">
-                Have questions or ready to start your investment journey? Our team is here to help.
-              </p>
-            </div>
+      <section className="bg-emerald-900 text-white py-20">
+        <div className="container mx-auto px-4">
+          <div className="max-w-3xl mx-auto text-center">
+            <h1 className="text-4xl md:text-5xl font-bold mb-6">Contact Us</h1>
+            <p className="text-xl">
+              Have questions about our investment options? Our team is here to help you make informed decisions.
+            </p>
           </div>
         </div>
       </section>
 
-      {/* Contact Form & Info */}
-      <section className="w-full py-12 md:py-24 lg:py-32">
-        <div className="container px-4 md:px-6">
-          <div className="grid gap-6 lg:grid-cols-2 lg:gap-12">
-            {/* Contact Form */}
-            <div className="flex flex-col justify-center space-y-4">
-              <div className="space-y-2">
-                <h2 className="text-3xl font-bold tracking-tighter">Get in Touch</h2>
-                <p className="text-slate-500">
-                  Fill out the form below and one of our investment advisors will get back to you shortly.
-                </p>
+      {/* Contact Form and Info */}
+      <section className="py-20">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+            {/* Contact Information */}
+            <div className="lg:col-span-1">
+              <h2 className="text-2xl font-bold mb-6">Get in Touch</h2>
+              <p className="text-gray-600 mb-8">
+                Our investment advisors are available to answer your questions and help you find the right investment
+                solutions for your needs.
+              </p>
+
+              <div className="space-y-6">
+                <div className="flex items-start">
+                  <div className="bg-emerald-100 p-3 rounded-full mr-4">
+                    <MapPin className="h-6 w-6 text-emerald-700" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-lg">Our Office</h3>
+                    <address className="not-italic text-gray-600">
+                      123 Financial District
+                      <br />
+                      Dubai, United Arab Emirates
+                    </address>
+                  </div>
+                </div>
+
+                <div className="flex items-start">
+                  <div className="bg-emerald-100 p-3 rounded-full mr-4">
+                    <Mail className="h-6 w-6 text-emerald-700" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-lg">Email Us</h3>
+                    <p className="text-gray-600">
+                      <a href="mailto:info@alhaqqinvestment.com" className="hover:text-emerald-700">
+                        info@alhaqqinvestment.com
+                      </a>
+                    </p>
+                    <p className="text-gray-600">
+                      <a href="mailto:support@alhaqqinvestment.com" className="hover:text-emerald-700">
+                        support@alhaqqinvestment.com
+                      </a>
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start">
+                  <div className="bg-emerald-100 p-3 rounded-full mr-4">
+                    <Phone className="h-6 w-6 text-emerald-700" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-lg">Call Us</h3>
+                    <p className="text-gray-600">
+                      <a href="tel:+97144123456" className="hover:text-emerald-700">
+                        +971 4 412 3456
+                      </a>
+                    </p>
+                    <p className="text-gray-600 text-sm">Sunday - Thursday: 9:00 AM - 5:00 PM</p>
+                  </div>
+                </div>
               </div>
-              <form className="space-y-4">
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                  <div className="space-y-2">
-                    <Label htmlFor="first-name">First name</Label>
-                    <Input id="first-name" placeholder="John" required />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="last-name">Last name</Label>
-                    <Input id="last-name" placeholder="Doe" required />
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
-                  <Input id="email" type="email" placeholder="john.doe@example.com" required />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="phone">Phone</Label>
-                  <Input id="phone" type="tel" placeholder="+1 (555) 123-4567" />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="subject">Subject</Label>
-                  <Input id="subject" placeholder="How can we help you?" required />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="message">Message</Label>
-                  <Textarea
-                    id="message"
-                    placeholder="Please provide details about your inquiry..."
-                    required
-                    className="min-h-[120px]"
-                  />
-                </div>
-                <Button type="submit" className="w-full bg-emerald-600 hover:bg-emerald-700">
-                  Send Message
-                </Button>
-              </form>
             </div>
 
-            {/* Contact Information */}
-            <div className="flex flex-col justify-center space-y-6">
-              <ContactInfo />
-              <div className="mt-8">
-                <h3 className="text-lg font-bold mb-4">Connect With Us</h3>
-                <SocialLinks />
-              </div>
+            {/* Contact Form */}
+            <div className="lg:col-span-2">
+              <Card>
+                <CardContent className="p-6">
+                  <h2 className="text-2xl font-bold mb-6">Send Us a Message</h2>
+
+                  {submitSuccess && (
+                    <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-6">
+                      Thank you for your message! We will get back to you shortly.
+                    </div>
+                  )}
+
+                  <form onSubmit={handleSubmit} className="space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="space-y-2">
+                        <Label htmlFor="name">Full Name</Label>
+                        <Input
+                          id="name"
+                          name="name"
+                          placeholder="John Doe"
+                          required
+                          value={formData.name}
+                          onChange={handleChange}
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="email">Email Address</Label>
+                        <Input
+                          id="email"
+                          name="email"
+                          type="email"
+                          placeholder="john@example.com"
+                          required
+                          value={formData.email}
+                          onChange={handleChange}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="space-y-2">
+                        <Label htmlFor="phone">Phone Number</Label>
+                        <Input
+                          id="phone"
+                          name="phone"
+                          placeholder="+971 50 123 4567"
+                          value={formData.phone}
+                          onChange={handleChange}
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="subject">Subject</Label>
+                        <Input
+                          id="subject"
+                          name="subject"
+                          placeholder="Investment Inquiry"
+                          required
+                          value={formData.subject}
+                          onChange={handleChange}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="message">Your Message</Label>
+                      <Textarea
+                        id="message"
+                        name="message"
+                        placeholder="How can we help you?"
+                        rows={6}
+                        required
+                        value={formData.message}
+                        onChange={handleChange}
+                      />
+                    </div>
+
+                    <Button
+                      type="submit"
+                      className="w-full md:w-auto bg-emerald-700 hover:bg-emerald-800"
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? "Sending..." : "Send Message"}
+                    </Button>
+                  </form>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </div>

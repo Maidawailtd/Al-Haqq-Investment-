@@ -1,9 +1,29 @@
-/* Ensure Tailwind CSS is properly configured */
-/* Check if Tailwind is installed and configured in tailwind.config.js */
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-rgb: 255, 255, 255;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: rgb(var(--background-rgb));
+}
+
+/* For buttons with "Continue with" text */
+button,
+.button {
+  font-weight: 500;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+/* For links */
+a {
+  transition: all 0.2s ease;
+}
 
 body {
   font-family: Arial, Helvetica, sans-serif;
@@ -11,7 +31,7 @@ body {
 
 @layer utilities {
   .text-balance {
-    word-wrap: break-word; /* Fallback for older browsers */
+    text-wrap: balance;
   }
 }
 
@@ -89,20 +109,10 @@ body {
 
 @layer base {
   * {
-    border: 1px solid #ccc;
+    @apply border-border;
   }
   body {
-    background-color: var(--background);
-    color: var(--foreground);
+    @apply bg-background text-foreground;
   }
 }
 
-/* Removed @apply rule and replaced with explicit CSS */
-/* Example: .custom-class { background-color: var(--background-color); } */
-
-.bg-background {
-  background-color: var(--background);
-}
-.text-foreground {
-  color: var(--foreground);
-}

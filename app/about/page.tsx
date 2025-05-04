@@ -1,218 +1,139 @@
-import Image from "next/image"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Users, Award, TrendingUp, Shield, CheckCircle } from "lucide-react"
-
-export const metadata = {
-  title: "About Us - Alhagg Investment",
-  description: "Learn about Alhagg Investment's history, mission, values, and our dedicated team of financial experts.",
-}
+import { Card, CardContent } from "@/components/ui/card"
+import { Award, BookOpen, Users } from "lucide-react"
 
 export default function AboutPage() {
+  const teamMembers = [
+    {
+      name: "Dr. Yusuf Al-Qaradawi",
+      title: "Founder & Chairman",
+      bio: "With over 30 years of experience in Islamic finance, Dr. Yusuf leads our vision for ethical investments.",
+    },
+    {
+      name: "Aisha Rahman",
+      title: "Chief Investment Officer",
+      bio: "Former head of Islamic banking at a major financial institution with expertise in Sukuk and equity markets.",
+    },
+    {
+      name: "Mohammed Al-Azhari",
+      title: "Head of Shariah Compliance",
+      bio: "Islamic scholar with a PhD in Islamic Finance ensuring all investments meet strict Shariah standards.",
+    },
+    {
+      name: "Sarah Abdullah",
+      title: "Director of Client Relations",
+      bio: "Dedicated to providing exceptional service and building lasting relationships with our investors.",
+    },
+  ]
+
   return (
-    <div className="flex flex-col min-h-screen">
+    <div>
       {/* Hero Section */}
-      <section className="w-full py-12 md:py-24 lg:py-32 bg-slate-50">
-        <div className="container px-4 md:px-6">
-          <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center">
-            <div className="flex flex-col justify-center space-y-4">
-              <div className="space-y-2">
-                <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl">About Alhagg Investment</h1>
-                <p className="max-w-[600px] text-slate-500 md:text-xl/relaxed">
-                  We are a leading investment firm dedicated to helping our clients achieve their financial goals
-                  through expert guidance and personalized strategies.
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center justify-center">
-              <Image
-                src="/placeholder.svg?height=400&width=600"
-                alt="Alhagg Investment Office"
-                width={600}
-                height={400}
-                className="rounded-lg object-cover"
-              />
-            </div>
+      <section className="bg-emerald-900 text-white py-20">
+        <div className="container mx-auto px-4">
+          <div className="max-w-3xl mx-auto text-center">
+            <h1 className="text-4xl md:text-5xl font-bold mb-6">Our Mission & Values</h1>
+            <p className="text-xl">
+              Al Haqq Investment was founded with a clear purpose: to provide ethical, Shariah-compliant investment
+              opportunities that generate competitive returns while upholding the highest moral standards.
+            </p>
           </div>
         </div>
       </section>
 
       {/* Our Story */}
-      <section className="w-full py-12 md:py-24 lg:py-32">
-        <div className="container px-4 md:px-6">
-          <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center">
-            <div className="flex items-center justify-center order-last lg:order-first">
-              <Image
-                src="/placeholder.svg?height=400&width=600"
-                alt="Alhagg Investment History"
-                width={600}
-                height={400}
-                className="rounded-lg object-cover"
-              />
+      <section className="py-20">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div>
+              <h2 className="text-3xl font-bold mb-6">Our Story</h2>
+              <p className="text-lg text-gray-700 mb-4">
+                Founded in 2010, Al Haqq Investment emerged from a vision to bridge the gap between ethical Islamic
+                principles and modern investment strategies.
+              </p>
+              <p className="text-lg text-gray-700 mb-4">
+                Our founders recognized that many Muslims were seeking investment opportunities that would not
+                compromise their religious values, yet still provide strong financial returns.
+              </p>
+              <p className="text-lg text-gray-700">
+                Starting with a small team of dedicated professionals, we have grown to become one of the leading
+                Islamic investment firms, managing over $250 million in assets for more than 12,000 investors worldwide.
+              </p>
             </div>
-            <div className="flex flex-col justify-center space-y-4">
-              <div className="space-y-2">
-                <h2 className="text-3xl font-bold tracking-tighter">Our Story</h2>
-                <p className="text-slate-500 md:text-lg/relaxed">
-                  Founded in 2008, Alhagg Investment was established with a clear mission: to provide accessible,
-                  transparent, and effective investment solutions to individuals and businesses alike.
-                </p>
-                <p className="text-slate-500 md:text-lg/relaxed">
-                  What began as a small team of passionate financial experts has grown into a trusted investment firm
-                  with a global presence, serving thousands of clients across different markets.
-                </p>
-                <p className="text-slate-500 md:text-lg/relaxed">
-                  Throughout our journey, we've remained committed to our core values of integrity, excellence, and
-                  client-centricity, ensuring that every investment decision we make is aligned with our clients' best
-                  interests.
-                </p>
+            <div className="relative h-[400px] rounded-lg overflow-hidden bg-gray-200 flex items-center justify-center">
+              <div className="text-gray-400 text-center">
+                <p className="text-sm">Company headquarters image</p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Our Mission & Values */}
-      <section className="w-full py-12 md:py-24 lg:py-32 bg-slate-50">
-        <div className="container px-4 md:px-6">
-          <div className="flex flex-col items-center justify-center space-y-4 text-center">
-            <div className="space-y-2">
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">Our Mission & Values</h2>
-              <p className="max-w-[700px] text-slate-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                Guiding principles that drive everything we do at Alhagg Investment.
-              </p>
-            </div>
-          </div>
-          <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 mt-12">
-            {[
-              {
-                title: "Integrity",
-                description:
-                  "We uphold the highest ethical standards in all our dealings, ensuring transparency and honesty in every interaction.",
-                icon: <Shield className="h-10 w-10 text-emerald-600" />,
-              },
-              {
-                title: "Excellence",
-                description:
-                  "We strive for excellence in everything we do, constantly improving our services to deliver the best results for our clients.",
-                icon: <Award className="h-10 w-10 text-emerald-600" />,
-              },
-              {
-                title: "Client-Centricity",
-                description:
-                  "Our clients are at the heart of our business. We tailor our services to meet their unique needs and goals.",
-                icon: <Users className="h-10 w-10 text-emerald-600" />,
-              },
-              {
-                title: "Innovation",
-                description:
-                  "We embrace innovation and leverage cutting-edge technology to enhance our investment strategies and client experience.",
-                icon: <TrendingUp className="h-10 w-10 text-emerald-600" />,
-              },
-              {
-                title: "Responsibility",
-                description:
-                  "We take responsibility for our actions and decisions, ensuring sustainable and responsible investment practices.",
-                icon: <CheckCircle className="h-10 w-10 text-emerald-600" />,
-              },
-              {
-                title: "Collaboration",
-                description:
-                  "We believe in the power of collaboration, working closely with our clients and partners to achieve shared goals.",
-                icon: <Users className="h-10 w-10 text-emerald-600" />,
-              },
-            ].map((value, index) => (
-              <div key={index} className="flex flex-col items-center space-y-4 rounded-lg border p-6 shadow-sm">
-                {value.icon}
-                <h3 className="text-xl font-bold">{value.title}</h3>
-                <p className="text-sm text-slate-500">{value.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Our Team */}
-      <section className="w-full py-12 md:py-24 lg:py-32">
-        <div className="container px-4 md:px-6">
-          <div className="flex flex-col items-center justify-center space-y-4 text-center">
-            <div className="space-y-2">
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">Meet Our Team</h2>
-              <p className="max-w-[700px] text-slate-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                Our team of experienced professionals is dedicated to helping you achieve your financial goals.
-              </p>
-            </div>
-          </div>
-          <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 mt-12">
-            {[
-              {
-                name: "Ahmed Alhagg",
-                role: "Founder & CEO",
-                bio: "With over 25 years of experience in the financial industry, Ahmed leads our team with vision and expertise.",
-              },
-              {
-                name: "Sarah Johnson",
-                role: "Chief Investment Officer",
-                bio: "Sarah brings 15 years of investment management experience, specializing in portfolio optimization and risk management.",
-              },
-              {
-                name: "Michael Chen",
-                role: "Head of Wealth Management",
-                bio: "Michael has helped hundreds of high-net-worth individuals achieve their financial goals over his 12-year career.",
-              },
-              {
-                name: "Jessica Williams",
-                role: "Director of Retirement Planning",
-                bio: "Jessica's expertise in retirement planning has helped countless clients secure their financial future.",
-              },
-              {
-                name: "David Thompson",
-                role: "Head of Research",
-                bio: "David leads our research team, providing data-driven insights that inform our investment strategies.",
-              },
-              {
-                name: "Olivia Martinez",
-                role: "Client Relations Manager",
-                bio: "Olivia ensures our clients receive personalized service and support throughout their investment journey.",
-              },
-            ].map((member, index) => (
-              <div key={index} className="flex flex-col items-center space-y-4 rounded-lg border p-6 shadow-sm">
-                <div className="h-24 w-24 rounded-full bg-slate-200 flex items-center justify-center">
-                  <Users className="h-12 w-12 text-slate-600" />
+      {/* Our Values */}
+      <section className="py-20 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold mb-12 text-center">Our Core Values</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <Card className="border-none shadow-md">
+              <CardContent className="pt-6">
+                <div className="rounded-full bg-emerald-100 p-3 w-12 h-12 flex items-center justify-center mb-4">
+                  <BookOpen className="text-emerald-700" />
                 </div>
-                <div className="text-center">
-                  <h3 className="text-xl font-bold">{member.name}</h3>
-                  <p className="text-sm font-medium text-emerald-600">{member.role}</p>
-                  <p className="mt-2 text-sm text-slate-500">{member.bio}</p>
+                <h3 className="text-xl font-bold mb-2">Shariah Compliance</h3>
+                <p className="text-gray-600">
+                  We strictly adhere to Islamic financial principles in all our investments and business practices, with
+                  oversight from respected Shariah scholars.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="border-none shadow-md">
+              <CardContent className="pt-6">
+                <div className="rounded-full bg-emerald-100 p-3 w-12 h-12 flex items-center justify-center mb-4">
+                  <Award className="text-emerald-700" />
                 </div>
-              </div>
-            ))}
+                <h3 className="text-xl font-bold mb-2">Excellence</h3>
+                <p className="text-gray-600">
+                  We pursue excellence in everything we do, from investment research and selection to client service and
+                  reporting.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="border-none shadow-md">
+              <CardContent className="pt-6">
+                <div className="rounded-full bg-emerald-100 p-3 w-12 h-12 flex items-center justify-center mb-4">
+                  <Users className="text-emerald-700" />
+                </div>
+                <h3 className="text-xl font-bold mb-2">Community Impact</h3>
+                <p className="text-gray-600">
+                  We believe in making a positive difference in the communities we serve, through ethical investments
+                  and charitable initiatives.
+                </p>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="w-full py-12 md:py-24 lg:py-32 bg-slate-900 text-white">
-        <div className="container px-4 md:px-6">
-          <div className="flex flex-col items-center justify-center space-y-4 text-center">
-            <div className="space-y-2">
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">
-                Ready to Start Your Investment Journey?
-              </h2>
-              <p className="max-w-[700px] text-slate-300 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                Our team of experts is ready to help you achieve your financial goals.
-              </p>
-            </div>
-            <div className="flex flex-col gap-2 min-[400px]:flex-row">
-              <Link href="/contact">
-                <Button className="bg-emerald-600 hover:bg-emerald-700">Contact Us</Button>
-              </Link>
-              <Link href="/services">
-                <Button variant="outline" className="border-slate-300 text-white hover:bg-slate-800">
-                  Explore Services
-                </Button>
-              </Link>
-            </div>
+      {/* Leadership Team */}
+      <section className="py-20">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold mb-12 text-center">Our Leadership Team</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {teamMembers.map((member, index) => (
+              <Card key={index} className="border-none shadow-md overflow-hidden">
+                <div className="h-48 bg-gray-200 flex items-center justify-center">
+                  <div className="text-gray-400 text-center">
+                    <p className="text-sm">Team member photo</p>
+                  </div>
+                </div>
+                <CardContent className="pt-6">
+                  <h3 className="text-xl font-bold mb-1">{member.name}</h3>
+                  <p className="text-emerald-700 mb-3">{member.title}</p>
+                  <p className="text-gray-600">{member.bio}</p>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </div>
       </section>
