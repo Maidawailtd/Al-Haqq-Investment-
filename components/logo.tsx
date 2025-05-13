@@ -22,4 +22,3 @@ export default function Logo({ className = "", size = "default" }) {
     </Link>
   )
 }
-
