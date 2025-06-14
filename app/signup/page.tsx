@@ -72,4 +72,3 @@ export default function SignupPage() {
     </div>
   )
 }
-
