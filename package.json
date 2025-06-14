@@ -66,5 +66,21 @@
     "postcss": "^8",
     "tailwindcss": "^3.4.17",
     "typescript": "^5"
-  }
+  },
+  "description": "Welcome to the Al-Haqq Investment repository!",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Maidawailtd/Al-Haqq-Investment-.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Maidawailtd/Al-Haqq-Investment-/issues"
+  },
+  "homepage": "https://github.com/Maidawailtd/Al-Haqq-Investment-#readme"
 }
