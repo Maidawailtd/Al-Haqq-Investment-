@@ -45,3 +45,4 @@ To get started with Al-Haqq Investment, follow these steps:
 To start the application, run the following command:
 ```bash
 npm start
+)[![Netlify Status](https://api.netlify.com/api/v1/badges/65748715-9d3e-4189-b5b4-bf22093ec67d/deploy-status)](https://app.netlify.com/projects/alhaqq-investment/deploys)
