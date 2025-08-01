@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 const { execSync } = require("child_process")
 
 // Colors for console output
@@ -17,54 +15,40 @@ function log(message, color = "reset") {
   console.log(`${colors[color]}${message}${colors.reset}`)
 }
 
-// Quick execution of all requested commands
-async function quickSetup() {
-  log("🚀 QUICK SETUP - ALHAGG INVESTMENT WEBSITE", "bright")
-  log("=".repeat(60), "cyan")
-
-  const commands = [
-    {
-      cmd: "npm run analyze",
-      desc: "📊 Bundle Size Analysis",
-      env: { ANALYZE: "true" },
-    },
-    {
-      cmd: "npm run build",
-      desc: "🏗️  Production Build",
-    },
-    {
-      cmd: "npm run lint:fix",
-      desc: "🧹 Code Quality Fix",
-    },
-    {
-      cmd: "node scripts/setup-pre-commit.js",
-      desc: "🔧 Pre-commit Hooks Setup",
-    },
-  ]
-
-  for (const command of commands) {
-    try {
-      log(`\n${command.desc}...`, "cyan")
-
-      if (command.env) {
-        Object.assign(process.env, command.env)
-      }
-
-      execSync(command.cmd, { stdio: "inherit" })
-      log(`✅ ${command.desc} completed`, "green")
-    } catch (error) {
-      log(`⚠️  ${command.desc} completed with warnings`, "yellow")
-    }
+function runCommand(command, description) {
+  try {
+    log(`\n🔄 ${description}...`, "cyan")
+    execSync(command, { stdio: "inherit" })
+    log(`✅ ${description} completed`, "green")
+    return true
+  } catch (error) {
+    log(`❌ ${description} failed: ${error.message}`, "red")
+    return false
   }
-
-  log("\n🎉 Quick setup completed!", "green")
-  log("\n📋 Summary:", "bright")
-  log("  ✅ Bundle analysis completed", "green")
-  log("  ✅ Production build created", "green")
-  log("  ✅ Code quality improved", "green")
-  log("  ✅ Pre-commit hooks configured", "green")
-
-  log("\n🚀 Ready for development and deployment!", "bright")
 }
 
-quickSetup().catch(console.error)
+function quickSetup() {
+  log("⚡ Quick Setup - Essential Commands Only", "bright")
+  log("=".repeat(45), "blue")
+
+  // Install dependencies
+  runCommand("npm install", "Installing dependencies")
+
+  // Build project
+  runCommand("npm run build", "Building project")
+
+  // Fix code quality
+  runCommand("npm run lint -- --fix", "Fixing code quality issues")
+
+  // Setup pre-commit hooks
+  runCommand("node scripts/setup-pre-commit.js", "Setting up pre-commit hooks")
+
+  log("\n🎉 Quick setup completed!", "bright")
+  log("🚀 Your project is ready for development and deployment", "green")
+}
+
+if (require.main === module) {
+  quickSetup()
+}
+
+module.exports = { quickSetup }

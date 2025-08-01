@@ -292,6 +292,65 @@ try {
   }
 }
 
+function setupPreCommit() {
+  log("🔧 Setting Up Pre-commit Hooks", "bright")
+  log("=".repeat(40), "blue")
+
+  // Install husky and lint-staged
+  log("\n📦 Installing required packages...", "yellow")
+  runCommand("npm install --save-dev husky lint-staged", "Installing husky and lint-staged")
+
+  // Initialize husky
+  runCommand("npx husky install", "Initializing husky")
+
+  // Create pre-commit hook
+  log("\n🪝 Creating pre-commit hook...", "cyan")
+  const preCommitHook = `#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+npx lint-staged
+`
+
+  if (!fs.existsSync(".husky")) {
+    fs.mkdirSync(".husky", { recursive: true })
+  }
+
+  fs.writeFileSync(".husky/pre-commit", preCommitHook)
+  execSync("chmod +x .husky/pre-commit")
+  log("✅ Pre-commit hook created", "green")
+
+  // Update package.json with prepare script
+  log("\n📝 Updating package.json...", "cyan")
+  try {
+    const packageJson = JSON.parse(fs.readFileSync("package.json", "utf8"))
+
+    if (!packageJson.scripts) {
+      packageJson.scripts = {}
+    }
+
+    packageJson.scripts.prepare = "husky install"
+
+    if (!packageJson["lint-staged"]) {
+      packageJson["lint-staged"] = {
+        "*.{js,jsx,ts,tsx}": ["eslint --fix", "prettier --write"],
+        "*.{json,css,md}": ["prettier --write"],
+      }
+    }
+
+    fs.writeFileSync("package.json", JSON.stringify(packageJson, null, 2))
+    log("✅ package.json updated", "green")
+  } catch (error) {
+    log(`⚠️ Could not update package.json: ${error.message}`, "yellow")
+  }
+
+  log("\n🎉 Pre-commit hooks setup completed!", "bright")
+  log("📋 What was configured:", "yellow")
+  log("• Husky for Git hooks management", "cyan")
+  log("• lint-staged for running linters on staged files", "cyan")
+  log("• Pre-commit hook to run ESLint and Prettier", "cyan")
+  log("• Automatic setup on npm install", "cyan")
+}
+
 // Main execution
 async function main() {
   log("🚀 Setting up Alhagg Investment Website Development Environment", "bright")
@@ -308,7 +367,7 @@ async function main() {
 
   // Install dependencies
   const installResult = runCommand(
-    "npm install --save-dev husky lint-staged @typescript-eslint/eslint-plugin @typescript-eslint/parser prettier prettier-plugin-tailwindcss @next/bundle-analyzer cross-env @lhci/cli lighthouse next-sitemap @svgr/webpack",
+    "npm install --save-dev @typescript-eslint/eslint-plugin @typescript-eslint/parser prettier prettier-plugin-tailwindcss @next/bundle-analyzer cross-env @lhci/cli lighthouse next-sitemap @svgr/webpack",
     "Installing development dependencies",
   )
 
@@ -368,7 +427,8 @@ async function main() {
   log("\n🎯 Your development environment is ready!", "green")
 }
 
-main().catch((error) => {
-  log(`❌ Setup failed: ${error.message}`, "red")
-  process.exit(1)
-})
+if (require.main === module) {
+  setupPreCommit()
+}
+
+module.exports = { setupPreCommit }
