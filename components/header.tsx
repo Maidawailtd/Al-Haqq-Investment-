@@ -1,100 +1,77 @@
 "use client"
 
+import type React from "react"
 import { useState } from "react"
-import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Menu, X } from "lucide-react"
-import { usePathname } from "next/navigation"
-import Logo from "./logo"
+import { Menu } from "lucide-react"
 
-export default function Header() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const pathname = usePathname()
-
-  const isActive = (path: string) => {
-    return pathname === path
-  }
-
-  const navLinks = [
-    { name: "Home", href: "/" },
-    { name: "About", href: "/about" },
-    { name: "Investments", href: "/investments" },
-    { name: "Services", href: "/services" },
-    { name: "Contact", href: "/contact" },
-  ]
+const Header: React.FC = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   return (
-    <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
-      <div className="container mx-auto px-4">
-        <div className="flex justify-between items-center h-20">
-          {/* Logo */}
-          <Logo />
+    <header className="bg-white py-4 shadow-md">
+      <div className="container mx-auto flex items-center justify-between">
+        <a href="/" className="text-2xl font-bold">
+          My Website
+        </a>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                className={`text-sm font-medium transition-colors ${
-                  isActive(link.href)
-                    ? "text-emerald-700 border-b-2 border-emerald-700"
-                    : "text-gray-600 hover:text-emerald-700"
-                }`}
-              >
-                {link.name}
-              </Link>
-            ))}
-          </nav>
+        <nav className="hidden md:flex space-x-4">
+          <a href="/" className="hover:text-gray-500">
+            Home
+          </a>
+          <a href="/about" className="hover:text-gray-500">
+            About
+          </a>
+          <a href="/services" className="hover:text-gray-500">
+            Services
+          </a>
+          <a href="/contact" className="hover:text-gray-500">
+            Contact
+          </a>
+        </nav>
 
-          {/* Auth Buttons - Desktop */}
-          <div className="hidden md:flex items-center space-x-4">
-            <Button asChild variant="outline" className="border-emerald-700 text-emerald-700 hover:bg-emerald-50">
-              <Link href="/login">Log In</Link>
-            </Button>
-            <Button asChild className="bg-emerald-700 hover:bg-emerald-800">
-              <Link href="/register">Register</Link>
-            </Button>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <button
-            className="md:hidden"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+        <div className="md:hidden">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label="Toggle navigation menu"
+            aria-expanded={isMenuOpen}
           >
-            {mobileMenuOpen ? <X className="h-6 w-6 text-gray-600" /> : <Menu className="h-6 w-6 text-gray-600" />}
-          </button>
+            <Menu className="h-6 w-6" />
+          </Button>
         </div>
-      </div>
 
-      {/* Mobile Menu */}
-      {mobileMenuOpen && (
-        <div className="md:hidden bg-white border-t border-gray-200">
-          <div className="container mx-auto px-4 py-4 space-y-4">
-            <nav className="flex flex-col space-y-4">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  className={`text-sm font-medium py-2 ${isActive(link.href) ? "text-emerald-700" : "text-gray-600"}`}
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {link.name}
-                </Link>
-              ))}
+        {isMenuOpen && (
+          <div className="fixed top-0 left-0 w-full h-screen bg-white z-50 flex flex-col items-center justify-center">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setIsMenuOpen(false)}
+              className="absolute top-4 right-4"
+              aria-label="Close navigation menu"
+            >
+              X
+            </Button>
+            <nav className="flex flex-col items-center space-y-4">
+              <a href="/" className="hover:text-gray-500">
+                Home
+              </a>
+              <a href="/about" className="hover:text-gray-500">
+                About
+              </a>
+              <a href="/services" className="hover:text-gray-500">
+                Services
+              </a>
+              <a href="/contact" className="hover:text-gray-500">
+                Contact
+              </a>
             </nav>
-            <div className="flex flex-col space-y-3 pt-4 border-t border-gray-100">
-              <Button asChild variant="outline" className="border-emerald-700 text-emerald-700 w-full">
-                <Link href="/login">Log In</Link>
-              </Button>
-              <Button asChild className="bg-emerald-700 hover:bg-emerald-800 w-full">
-                <Link href="/register">Register</Link>
-              </Button>
-            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </header>
   )
 }
+
+export default Header
